@@ -51,6 +51,7 @@ var doAddReview = (req, res, location) => {
         });
         location.save((err, location) =>{
             if(err) {
+                console.log(err);
                 sendJsonResponse(res, 400, err);
             }
             else {

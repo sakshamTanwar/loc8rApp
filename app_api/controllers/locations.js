@@ -60,19 +60,18 @@ module.exports.locationsListByDistance = (req, res) => {
     };
 
     var geoOptions = {
-        spherical: true,
-        maxDistance: theEarth.getRadsFromDistance(20),
-        num: 10
+        $geometry: point,
+        $maxDistance: 20
     };
 
-    if(!lng || !lat) {
+    if(!req.query.lng || !req.query.lat) {
         sendJsonResponse(res, 404, {
             "message": "lng and lat query parameters are required"
         });
         return;
     }
 
-    Loc.geoNear(point, options, (err, results, stats) => {
+    /*Loc.geoNear(point, geoOptions, (err, results, stats) => {
         if(err) {
             sendJsonResponse(res, 404, err);
         }
@@ -90,7 +89,27 @@ module.exports.locationsListByDistance = (req, res) => {
             });
             sendJsonResponse(res, 200, locations);
         }
-    });
+    });*/
+
+    Loc.find({}, (err, results) => {
+        if(err) {
+            sendJsonResponse(res, 404, err);
+        }
+        else {
+            var locations = [];
+            results.forEach((doc) => {
+                locations.push({
+                    distance: '100m',
+                    name: doc.name,
+                    address: doc.address,
+                    rating: doc.rating,
+                    facilities: doc.facilities,
+                    _id: doc._id
+                });
+            });
+            sendJsonResponse(res, 200, locations);
+        }
+    }).exec();
 }
 
 module.exports.locationsReadOne = (req, res) => {
