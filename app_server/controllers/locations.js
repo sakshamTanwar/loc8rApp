@@ -15,6 +15,7 @@ var ditanceBetweenPoints = (lat1, lon1, lat2, lon2) => {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 
+/*
 var renderHomePage = (req, res, responseBody) => {
     var message;
     if(!(responseBody.constructor === Array)) {
@@ -40,9 +41,25 @@ var renderHomePage = (req, res, responseBody) => {
     };
     res.render('locations-list', context_dic);
 }
+*/
+
+var renderHomePage = (req, res) => {
+    var context_dic = {
+        title: 'Loc8r - find a place to work with wifi',
+        pageHeader: {
+            title: 'Loc8r',
+            strapline: 'Find places to work with wifi near you!'
+        },
+        sidebar: {
+            text: 'Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you\'re looking for.'
+        }
+    };
+
+    res.render('locations-list', context_dic);
+}
 
 module.exports.homeList = (req, res) => {
-    var requestOptions, path;
+    /*var requestOptions, path;
     path = '/api/locations';
     requestOptions = {
         url: apiOptions.server + path,
@@ -57,7 +74,8 @@ module.exports.homeList = (req, res) => {
 
     request(requestOptions, (err, response, body) => {
         renderHomePage(req, res, body);
-    })
+    })*/
+    renderHomePage(req, res);
 };
 
 /* Location Info Page */
@@ -129,7 +147,8 @@ var renderReviewForm = (req, res, locDetail) => {
         user: {
             displayName: "Saksham Tanwar"
         },
-        error: req.query.err
+        error: req.query.err,
+        url: req.originalUrl
     }
     res.render('location-review-form', context_dic);
 }

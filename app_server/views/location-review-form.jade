@@ -7,7 +7,7 @@ block content
     
     .row
         .col-xs-12.col-md-6
-            form.form-horizontal(id='addReview', action='', method='post', role='form')
+            form.form-horizontal(id='addReview', action='#{url}', method='post', role='form')
                 - if (error == 'val')
                     .alert.alert-dander All Fields are required, please try again
                 .form-group
