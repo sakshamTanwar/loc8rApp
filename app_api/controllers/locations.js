@@ -28,7 +28,10 @@ module.exports.locationsCreate = (req, res) => {
         name: req.body.name,
         address: req.body.address,
         facilities: req.body.facilities.split(","),
-        coords: [parseFloat(req.body.lng), parseFloat(req.body.lat)],
+        loc: {
+            type: "Point",
+            coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
+        },
         openingTimes: [{
             days: req.body.days1,
             opening: req.body.opening1,
@@ -59,57 +62,35 @@ module.exports.locationsListByDistance = (req, res) => {
         coordinates: [lng, lat]
     };
 
-    var geoOptions = {
-        $geometry: point,
-        $maxDistance: 20
-    };
-
-    if(!req.query.lng || !req.query.lat) {
+    if((!lng && lng !== 0) || (!lat && lat !== 0)) {
         sendJsonResponse(res, 404, {
             "message": "lng and lat query parameters are required"
         });
         return;
     }
 
-    /*Loc.geoNear(point, geoOptions, (err, results, stats) => {
-        if(err) {
-            sendJsonResponse(res, 404, err);
-        }
-        else {
-            var locations = [];
-            results.forEach((doc) => {
-                locations.push({
-                    distance: theEarth.getDistanceFromRads(doc.dis),
-                    name: doc.obj.name,
-                    address: doc.obj.address,
-                    rating: doc.obj.rating,
-                    facilities: doc.obj.facilities,
-                    _id: doc.obj._id
-                });
-            });
-            sendJsonResponse(res, 200, locations);
-        }
-    });*/
+    var geoOptions = {
+        $geometry: {
+            type: "Point",
+            coordinates: [lng, lat]
+        },
+        $maxDistance: 2000,
+    }
 
-    Loc.find({}, (err, results) => {
-        if(err) {
-            sendJsonResponse(res, 404, err);
-        }
-        else {
-            var locations = [];
-            results.forEach((doc) => {
-                locations.push({
-                    distance: '100m',
-                    name: doc.name,
-                    address: doc.address,
-                    rating: doc.rating,
-                    facilities: doc.facilities,
-                    _id: doc._id
-                });
-            });
-            sendJsonResponse(res, 200, locations);
-        }
-    }).exec();
+    Loc.find({
+            loc: {
+                $nearSphere: geoOptions
+            }
+        })
+        .exec((err, result) => {
+            if(err) {
+                sendJsonResponse(res, 404, err);
+            }
+            else {
+                sendJsonResponse(res, 200, result);
+            }
+        });
+
 }
 
 module.exports.locationsReadOne = (req, res) => {

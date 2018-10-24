@@ -8,6 +8,13 @@ if(process.env.NODE_ENV === 'production') {
     apiOptions.server = "http://thawing-savannah-71712.herokuapp.com";
 }
 
+var ditanceBetweenPoints = (lat1, lon1, lat2, lon2) => {
+    var p = 0.017453292519943295;    // Math.PI / 180
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+
 var renderHomePage = (req, res, responseBody) => {
     var message;
     if(!(responseBody.constructor === Array)) {
@@ -41,8 +48,8 @@ module.exports.homeList = (req, res) => {
         url: apiOptions.server + path,
         method: 'GET',
         qs: {
-            lng: 0,
-            lat: 0,
+            lng: 0.1,
+            lat: 0.1,
             maxDistance: 20
         },
         json: {},
