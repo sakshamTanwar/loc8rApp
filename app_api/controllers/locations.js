@@ -6,23 +6,6 @@ var sendJsonResponse = (res, status, content) => {
     res.json(content);
 }
 
-var theEarth = (() => {
-    var earthRadius = 6371;
-
-    var getDistanceFromRads = (rads) => {
-        return parseFloat(rads*earthRadius);
-    }
-
-    var getRadsFromDistance = (dis) => {
-        return parseFloat(dis/earthRadius);
-    }
-
-    return {
-        getDistanceFromRads: getDistanceFromRads,
-        getRadsFromDistance: getRadsFromDistance
-    };
-})();
-
 module.exports.locationsCreate = (req, res) => {
     Loc.create({
         name: req.body.name,
@@ -52,6 +35,25 @@ module.exports.locationsCreate = (req, res) => {
             sendJsonResponse(res, 201, location);
         }
     });
+}
+
+var ditanceBetweenPoints = (lat1, lon1, lat2, lon2) => {
+    var p = 0.017453292519943295;    // Math.PI / 180
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+
+var updateDistance = (lng, lat, result) => {
+    result = JSON.parse(JSON.stringify(result));
+    for(var i = 0; i<result.length; i++) {
+        var lat1 = parseFloat(result[i].loc.coordinates[1]);
+        var lng1 = parseFloat(result[i].loc.coordinates[0]);
+        var distance = ditanceBetweenPoints(lat, lng, lat1, lng1);
+        result[i].dist = distance;
+    }
+
+    return result
 }
 
 module.exports.locationsListByDistance = (req, res) => {
@@ -87,10 +89,10 @@ module.exports.locationsListByDistance = (req, res) => {
                 sendJsonResponse(res, 404, err);
             }
             else {
-                sendJsonResponse(res, 200, result);
+                var updatedResult = updateDistance(lng, lat, result);
+                sendJsonResponse(res, 200, updatedResult);
             }
         });
-
 }
 
 module.exports.locationsReadOne = (req, res) => {
