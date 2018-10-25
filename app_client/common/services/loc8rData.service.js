@@ -1,4 +1,5 @@
 (function () {
+    loc8rData.$inject = ['$http'];
     function loc8rData($http) {
 
         var locationByCoords = (lat, lng) => {
