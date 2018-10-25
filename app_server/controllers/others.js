@@ -8,3 +8,7 @@ module.exports.about = (req, res) => {
 
     res.render('generic-text', context_dic);
 };
+
+module.exports.angularApp = (req, res) => {
+    res.render('layout', {title: 'Loc8r'});
+}

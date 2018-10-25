@@ -45,8 +45,6 @@ var loc8rData = ($http) => {
     return {
         locationByCoords: locationByCoords
     }
-
-
 };
 
 var locationListCtrl = ($scope, loc8rData, geolocation) => {
