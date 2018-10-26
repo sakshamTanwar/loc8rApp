@@ -22,9 +22,19 @@
             return $http(config)
         }
 
+        var addReviewById = (locationId, data) => {
+            var config = {
+                method: 'POST',
+                url: '/api/locations/' + locationId + '/reviews',
+                data: data
+            }
+            return $http(config)
+        }
+
         return {
             locationByCoords: locationByCoords,
-            locationById: locationById
+            locationById: locationById,
+            addReviewById: addReviewById
         }
     }
 
