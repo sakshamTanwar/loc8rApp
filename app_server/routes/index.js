@@ -5,12 +5,12 @@ var ctrlOthers = require('../controllers/others');
 
 /*Location Pages */
 //router.get('/', ctrlOthers.angularApp);
-router.get('/location/:locationId', ctrlLocations.locationInfo);
-router.get('/location/:locationId/review/new', ctrlLocations.addReview);
-router.post('/location/:locationId/review/new', ctrlLocations.doAddReview);
+//router.get('/location/:locationId', ctrlLocations.locationInfo);
+//router.get('/location/:locationId/review/new', ctrlLocations.addReview);
+//router.post('/location/:locationId/review/new', ctrlLocations.doAddReview);
 
 /*Other Pages */
-router.get('/about', ctrlOthers.about);
+//router.get('/about', ctrlOthers.about);
 
 
 
