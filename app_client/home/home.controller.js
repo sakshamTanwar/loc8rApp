@@ -21,7 +21,6 @@
                     vm.data = {
                         locations: data
                     }
-                    console.log(data);
                 },
                 (err) => {
                     vm.message = "Sorry, something gone wrong"

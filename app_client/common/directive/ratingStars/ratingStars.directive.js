@@ -12,4 +12,5 @@
             templateUrl: 'common/directive/ratingStars/ratingStars.template.html'
         }
     }
+
 }) ();

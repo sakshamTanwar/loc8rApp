@@ -14,8 +14,17 @@
             return $http(config)
         }
 
+        var locationById = (locationId) => {
+            var config = {
+                method: 'GET',
+                url: '/api/locations/' + locationId
+            }
+            return $http(config)
+        }
+
         return {
-            locationByCoords: locationByCoords
+            locationByCoords: locationByCoords,
+            locationById: locationById
         }
     }
 
