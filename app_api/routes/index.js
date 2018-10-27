@@ -20,7 +20,7 @@ router.delete('/locations/:locationId', ctrlLocations.locationsDeleteOne);
 
 //Review routes
 router.post('/locations/:locationId/reviews', auth, ctrlReviews.reviewsCreate);
-router.get('/locations/:locationId/reviews/:reviewId', auth, ctrlReviews.reviewsReadOne);
+router.get('/locations/:locationId/reviews/:reviewId', ctrlReviews.reviewsReadOne);
 router.put('/locations/:locationId/reviews/:reviewId', auth, ctrlReviews.reviewsUpdateOne);
 router.delete('/locations/:locationId/reviews/:reviewId', auth, ctrlReviews.reviewsDeleteOne);
 

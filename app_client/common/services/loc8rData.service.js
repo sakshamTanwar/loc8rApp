@@ -1,6 +1,6 @@
 (function () {
-    loc8rData.$inject = ['$http'];
-    function loc8rData($http) {
+    loc8rData.$inject = ['$http', 'authentication'];
+    function loc8rData($http, authentication) {
 
         var locationByCoords = (lat, lng) => {
             var config = {
@@ -26,7 +26,10 @@
             var config = {
                 method: 'POST',
                 url: '/api/locations/' + locationId + '/reviews',
-                data: data
+                data: data,
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
             }
             return $http(config)
         }
