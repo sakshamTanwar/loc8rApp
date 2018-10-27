@@ -23,7 +23,10 @@ module.exports.register = (req, res) => {
 
     user.save((err) => {
         if(err) {
-            sendJsonResponse(res, 400, err);
+            var error = {
+                message: "Email id already present"
+            }
+            sendJsonResponse(res, 400, error);
         }
         else {
             token = user.generateJwt();

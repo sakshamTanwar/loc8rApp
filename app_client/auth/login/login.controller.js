@@ -1,18 +1,17 @@
 (function() {
     angular
         .module('loc8rApp')
-        .controller('registerCtrl', registerCtrl)
+        .controller('loginCtrl', loginCtrl)
 
-    registerCtrl.$inject = ['$location', 'authentication'];
-    function registerCtrl($location, authentication) {
+    loginCtrl.$inject = ['$location', 'authentication'];
+    function loginCtrl($location, authentication) {
         var vm = this;
 
         vm.pageHeader = {
-            title: "Create a new Loc8r Account"
+            title: "Sign in to Loc8r"
         }
 
         vm.credentials = {
-            name: "",
             email: "",
             password: ""
         }
@@ -22,22 +21,22 @@
         vm.onSubmit = function() {
             vm.formError = "";
 
-            if(!vm.credentials.name || !vm.credentials.email || !vm.credentials.password) {
+            if(!vm.credentials.email || !vm.credentials.password) {
                 vm.formError = "All fields are required, please try again";
                 return false;
             }
             else {
-                vm.doRegister();
+                vm.doLogin();
             }
         }
 
-        vm.doRegister = function() {
+        vm.doLogin = function() {
             vm.formError = "";
             authentication
-                .register(vm.credentials)
+                .login(vm.credentials)
                 .then(function(data) {
                     if(data && data.message) {
-                        vm.formError = data.message;
+                        vm.formError = data.message
                     }
                     else {
                         $location.search('page', null);

@@ -23,6 +23,9 @@
             return $http(config).then(
                 function(data) {
                     saveToken(data.data.token);
+                },
+                function(err) {
+                    return err.data;
                 }
             )
         }
@@ -36,7 +39,10 @@
 
             return $http(config).then(
                 function(data) {
-                    saveToken(data.token);
+                    saveToken(data.data.token);
+                },
+                function(err) {
+                    return err.data;
                 }
             )
         }
