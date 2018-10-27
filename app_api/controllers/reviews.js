@@ -90,7 +90,7 @@ var getAuthor = function(req, res, callback) {
     }
 }
 
-module.exports.reviewsCreate = (req, res) =>
+module.exports.reviewsCreate = (req, res) => {
 
     getAuthor(req, res, function(req, res, username) {
         var locationId = req.params.locationId;
@@ -113,7 +113,6 @@ module.exports.reviewsCreate = (req, res) =>
             });
         }
     })
-
 
 }
 
