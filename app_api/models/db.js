@@ -8,7 +8,8 @@ if(process.env.NODE_ENV === 'production') {
     dbURI = process.env.MONGODB_URI;
 };
 
-mongoose.connect(dbURI);
+mongoose.set('useCreateIndex', true)
+mongoose.connect(dbURI, { useNewUrlParser: true});
 
 mongoose.connection.on('connected', () => {
     console.log('Mongoose connected to ' + dbURI);
