@@ -41,9 +41,15 @@
             }
             var modalInstance = $uibModal.open(modalOptions)
 
-            modalInstance.result.then((data) => {
-                vm.data.location.reviews.push(data);
-            })
+            modalInstance.result
+                .then((data) => {
+                    vm.data.location.reviews.push(data);
+                })
+                .catch((err) => {
+                    if(['cancel', 'backdrop click', 'escape key press'].indexOf(err) === -1) {
+                        throw err;
+                    }
+                })
         }
     }
 }) ();
