@@ -5,7 +5,9 @@
 
     function navigation() {
         return {
-            templateUrl: 'common/directive/navigation/navigation.template.html'
+            templateUrl: 'common/directive/navigation/navigation.template.html',
+            controller: 'navigationCtrl',
+            controllerAs: 'navvm'
         }
     }
 }) ();
